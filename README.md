@@ -1,7 +1,7 @@
-MB-pipeline-DC/README.md
+###MB-pipeline-DC/README.md
 
-Linux pipeline for metabarcoding.  
-available at https://sourceforge.net/projects/metabarcode-pipe/
+######Linux pipeline for metabarcoding.  
+######available at https://sourceforge.net/projects/metabarcode-pipe/
 
 required software:  
 * blast+ (executables makeblastdb, blastdbcmd)
