@@ -3,7 +3,7 @@ MB-pipeline-DC/README.md
 Linux pipeline for metabarcoding.
 available at https://sourceforge.net/projects/metabarcode-pipe/
 
-required software: 
+required software:
   blast+ (executables makeblastdb, blastdbcmd)
   usearch (http://www.drive5.com/usearch/download.html), old version 4.2.66_i86linux32 is recommended
   raxmlHPC (version > 7.2.8-ish)
