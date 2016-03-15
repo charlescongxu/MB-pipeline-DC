@@ -11,7 +11,7 @@ wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz
 # unzip the NCBI taxonomy database
 tar -xvzf taxdump.tar.gz
 
-# output files that should be produced:
+# output files:
 # citations.dmp
 # delnodes.dmp
 # division.dmp
@@ -47,7 +47,6 @@ tar -xvzf taxdump.tar.gz
 
 # there are 2 ways to do this
 # 1. download all parts of the NCBI release within each division
-
 wget ftp://ftp.ncbi.nih.gov/genbank/gbmam*.seq.gz
 wget ftp://ftp.ncbi.nih.gov/genbank/gbpri*.seq.gz
 wget ftp://ftp.ncbi.nih.gov/genbank/gbrod*.seq.gz
@@ -62,10 +61,16 @@ for i in {1..54};do echo "Primate           division $i";wget ftp://ftp.ncbi.nih
 for i in {1..31};do echo "Rodent            division $i";wget ftp://ftp.ncbi.nih.gov/genbank/gbrod$i.seq.gz;done
 for i in {1..61};do echo "Other Vertebrates division $i";wget ftp://ftp.ncbi.nih.gov/genbank/gbrod$i.seq.gz;done
 
-# many gzipped sequence files of the target taxonomic groups should now be downloaded into your reference directory
+# output files:
+# many gzipped sequence files of the target taxonomic groups
 
 # use perl script 'parse_ncbi_tax_database.pl' to parse NCBI database files (names.dmp and nodes.dmp)
 # for taxonomic information of specified taxonomic group
 # 40674 = ncbi tax number for mammals
 # script options: $parse_species_only= 1; ignores partially labeled IDs
 perl parse_ncbi_tax_database.pl 40674
+
+# output files:
+# key_Oct2013
+# key_Oct2013_Mammalia
+# parse_ncbi_tax_database_LOG
