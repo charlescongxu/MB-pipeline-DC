@@ -1,6 +1,59 @@
-###SECTION ONE: Create a reference framework from mined NCBI data
+# SECTION ONE: Create a reference framework from mined NCBI data
 
-**Note: If you already have a reference multiple sequence alignment, skip to section two.**
+# Note: If you already have a reference multiple sequence alignment, skip to SECTION TWO.
 
-Change your working directory  
-'cd ~
+# change your working directory to where you want to download references
+cd ~/home/wangxy/charles/data/references
+
+# download the NCBI taxonomy database
+wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz
+
+# unzip the NCBI taxonomy database
+tar -xvzf taxdump.tar.gz
+
+# output files that should be produced:
+# citations.dmp
+# delnodes.dmp
+# division.dmp
+# gc.prt
+# gencode.dmp
+# merged.dmp
+# names.dmp
+# nodes.dmp
+# readme.txt
+
+# download the current NCBI release for the taxonomic group you want to target
+# the following is written for MAMMALS
+# for other taxa you need to f the appropriate division abbreviations and replace below
+# the following is a list of possible abbreviations:
+#  1. PRI - primate sequences
+#  2. ROD - rodent sequences
+#  3. MAM - other mammalian sequences
+#  4. VRT - other vertebrate sequences
+#  5. INV - invertebrate sequences
+#  6. PLN - plant, fungal, and algal sequences
+#  7. BCT - bacterial sequences
+#  8. VRL - viral sequences
+#  9. PHG - bacteriophage sequences
+#  10. SYN - synthetic sequences
+#  11. UNA - unannotated sequences
+#  12. EST - EST sequences (expressed sequence tags)
+#  13. PAT - patent sequences
+#  14. STS - STS sequences (sequence tagged sites)
+#  15. GSS - GSS sequences (genome survey sequences)
+#  16. HTG - HTG sequences (high-throughput genomic sequences)
+#  17. HTC - unfinished high-throughput cDNA sequencing
+#  18. ENV - environmental sampling sequences
+# 2 ways to do this. first requires you copy these commands as is:
+
+wget ftp://ftp.ncbi.nih.gov/genbank/gbmam*.seq.gz
+wget ftp://ftp.ncbi.nih.gov/genbank/gbpri*.seq.gz
+wget ftp://ftp.ncbi.nih.gov/genbank/gbrod*.seq.gz
+# wget ftp://ftp.ncbi.nih.gov/genbank/gbvrt*.seq.gz
+
+ # * OR * this way is easier to resume downloading if process is interupted.
+ # however, for this you need to look on the website (ftp://ftp.ncbi.nih.gov/genbank/) and 
+ # write in here how many files in the current release (if in doubt just write a high number)
+for i in {1..37};do echo "Mammal     division $i";wget ftp://ftp.ncbi.nih.gov/genbank/gbmam$i.seq.gz;done
+for i in {1..54};do echo "Primate    division $i";wget ftp://ftp.ncbi.nih.gov/genbank/gbpri$i.seq.gz;done
+for i in {1..31};do echo "Rodent     division $i";wget ftp://ftp.ncbi.nih.gov/genbank/gbrod$i.seq.gz;done
