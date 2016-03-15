@@ -22,4 +22,4 @@ required scripts:
 * species_filter.pl
 
 required files:  
-* BE_mammal_supertree.nwk (a prevously published supertree phylogeny of mammals by Bininda-emonds)
+* BE_mammal_supertree.nwk (a prevously published supertree phylogeny of mammals by Bininda-Emonds)
