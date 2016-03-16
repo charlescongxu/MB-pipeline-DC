@@ -71,6 +71,20 @@ for i in {1..61};do echo "Other Vertebrates division $i";wget ftp://ftp.ncbi.nih
 perl parse_ncbi_tax_database.pl 40674
 
 # output files:
-# key_Oct2013
-# key_Oct2013_Mammalia
+# key_<MONTH+YEAR>_Mammalia
 # parse_ncbi_tax_database_LOG
+
+# use perl script 'create_fasta_database_from_genbank_flatfiles.pl' to parse NCBI flatfiles
+# for creating a single fasta format database
+# open script to modify the following settings:
+#  my @genbank_divisions = "<all GenBank database divisions used (e.g. gbmam)>"
+#  my $gene_specific_analysis = 0/1 (depending on if you are interested in 1 or many genes)
+#  my @product_of_interests = ("<gene name (e.g. 16S)>")
+#  my $print_genome_taxa = 0/1 (depending on if you want to print full genomes (e.g. D. melanogaster))
+#  $upper_entry_length 		= 10000000 (?just put a big number here?)
+#  $limit_taxon = 1/0 (?what does this do?)
+#  $limit_taxon_name = "<name of taxon you want to limit (e.g. Insecta)>"
+#  $parse_protein = 1/0 (depending on if you want to also parse proteins)
+#  my $verbose = 1/0 (?what does this do?)
+#  my $accession_keyfile_ID = "<accession abbreviation of taxonomic group (e.g. inv)>"
+perl create_fasta_database_from_genbank_flatfiles.pl -out mamDB -outformat 1
