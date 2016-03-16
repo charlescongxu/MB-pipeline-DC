@@ -1,26 +1,28 @@
-# SECTION ONE: Create a reference framework from mined NCBI data
-
+### SECTION ONE: Create a reference framework from mined NCBI data ###
 # Note: If you already have a reference multiple sequence alignment, skip to SECTION TWO.
 
 # change your working directory to where you want to download references
+
 cd ~/home/wangxy/charles/data/references
 
 # download the NCBI taxonomy database
+
 wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz
 
 # unzip the NCBI taxonomy database
+
 tar -xvzf taxdump.tar.gz
 
 # output files:
-# citations.dmp
-# delnodes.dmp
-# division.dmp
-# gc.prt
-# gencode.dmp
-# merged.dmp
-# names.dmp
-# nodes.dmp
-# readme.txt
+#  citations.dmp
+#  delnodes.dmp
+#  division.dmp
+#  gc.prt
+#  gencode.dmp
+#  merged.dmp
+#  names.dmp
+#  nodes.dmp
+#  readme.txt
 
 # download the current NCBI release for the taxonomic group you want to target
 # the following is written for MAMMALS
@@ -47,6 +49,7 @@ tar -xvzf taxdump.tar.gz
 
 # there are 2 ways to do this
 # 1. download all parts of the NCBI release within each division
+
 wget ftp://ftp.ncbi.nih.gov/genbank/gbmam*.seq.gz
 wget ftp://ftp.ncbi.nih.gov/genbank/gbpri*.seq.gz
 wget ftp://ftp.ncbi.nih.gov/genbank/gbrod*.seq.gz
@@ -56,35 +59,58 @@ wget ftp://ftp.ncbi.nih.gov/genbank/gbvrt*.seq.gz
 # this way is easier to resume downloading if process is interupted
 # however, for this you need to look on the website (ftp://ftp.ncbi.nih.gov/genbank/)
 # and write in here how many files in the current release (if in doubt just write a high number)
+
 for i in {1..37};do echo "Mammal            division $i";wget ftp://ftp.ncbi.nih.gov/genbank/gbmam$i.seq.gz;done
 for i in {1..54};do echo "Primate           division $i";wget ftp://ftp.ncbi.nih.gov/genbank/gbpri$i.seq.gz;done
 for i in {1..31};do echo "Rodent            division $i";wget ftp://ftp.ncbi.nih.gov/genbank/gbrod$i.seq.gz;done
 for i in {1..61};do echo "Other Vertebrates division $i";wget ftp://ftp.ncbi.nih.gov/genbank/gbrod$i.seq.gz;done
 
 # output files:
-# many gzipped sequence files of the target taxonomic groups
+#  many gzipped sequence files of the target taxonomic groups (e.g. gbmam1.seq.gz)
 
 # use perl script 'parse_ncbi_tax_database.pl' to parse NCBI database files (names.dmp and nodes.dmp)
 # for taxonomic information of specified taxonomic group
 # 40674 = ncbi tax number for mammals
 # script options: $parse_species_only= 1; ignores partially labeled IDs
+
 perl parse_ncbi_tax_database.pl 40674
 
 # output files:
-# key_<MONTH+YEAR>_Mammalia
-# parse_ncbi_tax_database_LOG
+#  key_<MONTH+YEAR>_Mammalia
+#  parse_ncbi_tax_database_LOG
 
 # use perl script 'create_fasta_database_from_genbank_flatfiles.pl' to parse NCBI flatfiles
 # for creating a single fasta format database
+# -outformat 1 for accession_ncbiTaxnumber and -outformat 2 for Taxstring_GInumber
 # open script to modify the following settings:
-#  my @genbank_divisions = "<all GenBank database divisions used (e.g. gbmam)>"
+#  my @genbank_divisions      = "<all GenBank database divisions used (e.g. gbmam)>"
 #  my $gene_specific_analysis = 0/1 (depending on if you are interested in 1 or many genes)
-#  my @product_of_interests = ("<gene name (e.g. 16S)>")
-#  my $print_genome_taxa = 0/1 (depending on if you want to print full genomes (e.g. D. melanogaster))
-#  $upper_entry_length 		= 10000000 (?just put a big number here?)
-#  $limit_taxon = 1/0 (?what does this do?)
-#  $limit_taxon_name = "<name of taxon you want to limit (e.g. Insecta)>"
-#  $parse_protein = 1/0 (depending on if you want to also parse proteins)
-#  my $verbose = 1/0 (?what does this do?)
-#  my $accession_keyfile_ID = "<accession abbreviation of taxonomic group (e.g. inv)>"
+#  my @product_of_interests   = ("<gene name (e.g. 16S)>")
+#  my $print_genome_taxa      = 0/1 (depending on if you want to print full genomes (e.g. D. melanogaster))
+#  $upper_entry_length 		    = 10000000 (?just put a big number here?)
+#  $limit_taxon               = 1/0 (?what does this do?)
+#  $limit_taxon_name          = "<name of taxon you want to limit (e.g. Insecta)>"
+#  $parse_protein             = 1/0 (depending on if you want to also parse proteins)
+#  my $verbose                = 1/0 (?what does this do?)
+#  my $accession_keyfile_ID   = "<accession abbreviation of taxonomic group (e.g. inv)>"
+
 perl create_fasta_database_from_genbank_flatfiles.pl -out mamDB -outformat 1
+
+# output files:
+#  accession_key.<MONTH+YEAR>.mam
+#  DodgyDnaSeqsFound (should hopefully contain nothing)
+#  mamDB
+
+# consolidate files containing taxonomic information and fasta database (accession_key.<MONTH+YEAR>.mam, mamDB)
+# to create a file with just species name and accession as the fasta ID
+# open script to modify the following settings:
+#  $memory_efficient = 1 (1 = read only one entry into memory at a time, allows large fasta databases to be used)
+#  $id_format  = 3 (1 = tobycode, underscore, accession, 2 = ncbi_taxon_number, underscore, accession, 3 = full species name, underscore, accession, 4 = family, underscore, full species name, underscore, accession)
+#  $parse_binomial_labelled_only = 1 (?default = 0?)
+perl parse_taxon_from_fastafile.pl mamDB key_Mar2016_Mammalia
+
+#output files:
+#  key_<MONTH+YEAR>_Mammalia.reduced_according_to.mamDB (new key file without species that are not found in the database (mamDB))
+#  mamDB.parsed
+#  missingtaxids (list of ommited sequences from mamDB that did not have NCBI taxon numbers listed in key_<MONTH+YEAR>_Mammalia)
+#  parse_order_from_endop_fastafile_LOG
