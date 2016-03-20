@@ -387,6 +387,21 @@ perl format_conversion.pl aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq 
 # output files:
 #  aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
 
+# use RAxML with previously created reference phylogeny (RAxML_bestTree.ref_tree) to do phylogenetic placement of queries/references alignment
 # "-f v": classify a bunch of environmental sequences into a reference tree
-# might need to delete your previous run here , if present
+# -o Tachyglossus_aculeatus: use short-beaked echidna as outgroup
+# Note: may need to remove files from previous runs of RAxML
+
 /home/wangxy/scripts/RAxML-7.2.8-ALPHA/raxmlHPC -f v -t RAxML_bestTree.ref_tree -m GTRCAT -n BWL_CROP98.cluster.align.raxmlEPAout -s aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy -o Tachyglossus_aculeatus
+
+# Note: may need to remove some sequences consisting entirely of undetermined values (-) or else RAxML will not run, these are not the taxa you are looking for...
+
+sed --in-place '/all_seqs_89to121bp_noChimera_uniques_1199/d' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
+sed --in-place '/all_seqs_89to121bp_noChimera_uniques_44259/d' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
+sed --in-place '/all_seqs_89to121bp_noChimera_uniques_23857/d' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
+sed --in-place '/all_seqs_89to121bp_noChimera_uniques_24008/d' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
+sed --in-place '/all_seqs_89to121bp_noChimera_uniques_63886/d' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
+
+# Also note: make sure the header of your queries/references alignment is correct, the 1st number should be the number of total sequences
+#            otherwise you will get this stupid error
+#            "Taxon Name too long at taxon XXX, adapt constant nmlngth in axml.h, current setting 256"
