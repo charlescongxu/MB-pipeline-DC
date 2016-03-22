@@ -9,7 +9,7 @@ queryfile      = <name_of_file_containing_query_sequences>
 aligned_refs   = refs_unaligned.prank.best.fas.overlapping
 reference_tree = RAxML_bestTree.ref_tree
 
-# make a new directory (placement, RAxML_EPA) for section 3, placement option 1 and copy input files, 'format_conversion.pl' into it
+# make a new directory (placement, RAxML_EPA) for section 3, placement option 1 and copy input files and 'format_conversion.pl' into it
 
 mkdir ../placement
 mkdir ../placement/RAxML_EPA
@@ -50,6 +50,33 @@ sed --in-place '/all_seqs_89to121bp_noChimera_uniques_63886/d' aligned_refs.BWL_
 # Also note: make sure the header of your queries/references alignment is correct, the 1st number should be the number of total sequences
 #            otherwise you will get this stupid error
 #            "Taxon Name too long at taxon XXX, adapt constant nmlngth in axml.h, current setting 256"
+
+#######################################################################################################################################
+### OPTION TWO: pplacer ###############################################################################################################
+#######################################################################################################################################
+
+# input files:
+
+BWL_CROP98.cluster.align (query file)
+aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq (concatenated aligned queries with 'overlapping' reference alignment from placement option 1)
+RAxML_bestTree.ref_tree (reference tree from section two)
+RAxML_info.ref_tree (info file of reference tree from section two)
+
+# make a new directory (pplacer) for placement option 2 and copy input files into it
+
+mkdir ../pplacer
+cd ../pplacer
+cp ../RAxML_EPA/aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq .
+cp ../../references/RAxML_bestTree.ref_tree .
+cp ../../reference/RAxML_info.ref_tree .
+
+# rename .rpq file to .fa file necessary for input into pplacer
+
+mv aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
+
+# use pplacer with reference tree and concatenated aligned queries with 'overlapping' reference alignment to do phylogenetic placement
+
+pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 1 -t RAxML_bestTree.ref_tree -s RAxML_info.ref_tree aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
 
 #######################################################################################################################################
 ### OPTION THREE: bagpipe phylo #######################################################################################################
