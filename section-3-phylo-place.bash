@@ -5,9 +5,9 @@
 #######################################################################################################################################
 # input files:
 
-queryfile      = <name_of_file_containing_query_sequences>
-aligned_refs   = refs_unaligned.prank.best.fas.overlapping
-reference_tree = RAxML_bestTree.ref_tree
+BWL_CROP98.cluster.align                  = alignment of queries to reference, output from mothur
+refs_unaligned.prank.best.fas.overlapping = aligned references that overlap with the supertree backbone
+RAxML_bestTree.ref_tree                   = reference tree
 
 # make a new directory (placement, RAxML_EPA) for section 3, placement option 1 and copy input files and 'format_conversion.pl' into it
 
@@ -26,6 +26,7 @@ cd ../placement/RAxML_EPA
 # we use the 'overlapping' file because it contains accessions rm, which matches the constraint tree
 
 # concatenate aligned queries with 'overlapping' reference alignment and then convert from fasta to phylip format
+
 cat refs_unaligned.prank.best.fas.overlapping BWL_CROP98.cluster.align > aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq
 perl format_conversion.pl aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy fasta phylip
 
@@ -41,15 +42,13 @@ perl format_conversion.pl aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq 
 
 # Note: may need to remove some sequences consisting entirely of undetermined values (-) or else RAxML will not run, these are not the taxa you are looking for...
 
-sed --in-place '/all_seqs_89to121bp_noChimera_uniques_1199/d' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
-sed --in-place '/all_seqs_89to121bp_noChimera_uniques_44259/d' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
-sed --in-place '/all_seqs_89to121bp_noChimera_uniques_23857/d' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
-sed --in-place '/all_seqs_89to121bp_noChimera_uniques_24008/d' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
-sed --in-place '/all_seqs_89to121bp_noChimera_uniques_63886/d' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
+sed '/_1199\|_44259\|_23857\|_24008\|_63886/{N;d;}' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy > fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
+
+/home/wangxy/scripts/RAxML-7.2.8-ALPHA/raxmlHPC -f v -t RAxML_bestTree.ref_tree -m GTRCAT -n BWL_CROP98.cluster.align.raxmlEPAout -s fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy -o Tachyglossus_aculeatus
 
 # Also note: make sure the header of your queries/references alignment is correct, the 1st number should be the number of total sequences
-#            otherwise you will get this stupid error
-#            "Taxon Name too long at taxon XXX, adapt constant nmlngth in axml.h, current setting 256"
+# otherwise you will get this stupid error: "Taxon Name too long at taxon XXX, adapt constant nmlngth in axml.h, current setting 256"
+# the number of sequences is equal to 1 less than the number of lines, which you can check using 'wc <file>'
 
 #######################################################################################################################################
 ### OPTION TWO: pplacer ###############################################################################################################
@@ -57,26 +56,49 @@ sed --in-place '/all_seqs_89to121bp_noChimera_uniques_63886/d' aligned_refs.BWL_
 
 # input files:
 
-BWL_CROP98.cluster.align (query file)
-aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq (concatenated aligned queries with 'overlapping' reference alignment from placement option 1)
-RAxML_bestTree.ref_tree (reference tree from section two)
-RAxML_info.ref_tree (info file of reference tree from section two)
+BWL_CROP98.cluster.align = alignment of queries to reference, output from mothur
+refs_unaligned.prank.best.fas.overlapping = aligned references that overlap with the supertree backbone
+RAxML_bestTree.ref_tree  = reference tree from section two
+RAxML_info.ref_tree      = info file of reference tree from section two
 
 # make a new directory (pplacer) for placement option 2 and copy input files into it
 
 mkdir ../pplacer
 cd ../pplacer
-cp ../RAxML_EPA/aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq .
+cp ../../query/BWL_CROP98.cluster.align .
+cp ../../query/refs_unaligned.prank.best.fas.overlapping .
 cp ../../references/RAxML_bestTree.ref_tree .
 cp ../../reference/RAxML_info.ref_tree .
 
-# rename .rpq file to .fa file necessary for input into pplacer
+# concatenate aligned queries with 'overlapping' reference alignment and then convert from fasta to phylip format
 
-mv aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
+cat refs_unaligned.prank.best.fas.overlapping BWL_CROP98.cluster.align > aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
 
 # use pplacer with reference tree and concatenated aligned queries with 'overlapping' reference alignment to do phylogenetic placement
 
 pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 1 -t RAxML_bestTree.ref_tree -s RAxML_info.ref_tree aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
+
+# Note: may need to remove some sequences consisting entirely of undetermined values (-) or else RAxML will not run, these are not the taxa you are looking for...
+
+sed '/_1199\|_44259\|_23857\|_24008\|_63886/{N;d;}' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa > fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
+
+pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 1 -t RAxML_bestTree.ref_tree -s RAxML_info.ref_tree fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
+
+# output files:
+#  fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.jplace
+
+# guppy does various analyses of pplacer output
+# here, we use guppy to fatten tree edges where queries are assigned
+pplacer-Linux-v1.1.alpha17/guppy fat fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.jplace
+
+# output files:
+#  fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.xml
+
+# here, we use guppy to make a tree with each of the reads represented as a pendant edge
+pplacer-Linux-v1.1.alpha17/guppy tog fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.jplace
+
+# output files:
+#  fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.tog.tre
 
 #######################################################################################################################################
 ### OPTION THREE: bagpipe phylo #######################################################################################################
