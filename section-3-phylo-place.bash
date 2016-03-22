@@ -50,6 +50,9 @@ sed '/_1199\|_44259\|_23857\|_24008\|_63886/{N;d;}' aligned_refs.BWL_CROP98.clus
 # otherwise you will get this stupid error: "Taxon Name too long at taxon XXX, adapt constant nmlngth in axml.h, current setting 256"
 # the number of sequences is equal to 1 less than the number of lines, which you can check using 'wc <file>'
 
+# output files:
+#  
+
 #######################################################################################################################################
 ### OPTION TWO: pplacer ###############################################################################################################
 #######################################################################################################################################
@@ -142,3 +145,12 @@ cp ../../query/BWL_CROP98.cluster.align .
 # use perl script 'bagpipe_phylo.pl' to do phylogenetic placement using the constrained RAxML tree and the aligned queries
 
 perl bagpipe_phylo.pl -treefile RAxML_bestTree.BWL_CROP98.constrn -seqfile BWL_CROP98.cluster.align -support 0 -node 40674
+
+# Note: may need to remove some sequences consisting entirely of undetermined values (-) or else RAxML will not run, these are not the taxa you are looking for...
+
+sed '/_1199\|_44259\|_23857\|_24008\|_63886/{N;d;}' BWL_CROP98.cluster.align > fixed.BWL_CROP98.cluster.align
+
+perl bagpipe_phylo.pl -treefile RAxML_bestTree.BWL_CROP98.constrn -seqfile fixed.BWL_CROP98.cluster.align -support 0 -node 40674
+
+# output files:
+#  RAxML_bestTree.BWL_CROP98.constrn.query_clades
