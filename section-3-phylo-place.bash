@@ -77,3 +77,18 @@ cp names.dmp ../placement/bagpipe_phylo
 # use RAxML to create a constraint tree from the input files
 
 /home/wangxy/scripts/RAxML-7.2.8-ALPHA/raxmlHPC -s aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy -n BWL_CROP98.constrn -m GTRCAT -c 25 -p 12345 -g BE_mammal_supertree.nwk.overlapping
+
+# output files:
+#  aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy.reduced
+#  RAxML_bestTree.BWL_CROP98.constrn
+#  RAxML_info.BWL_CROP98.constrn
+#  RAxML_log.BWL_CROP98.constrn
+#  RAxML_result.BWL_CROP98.constrn
+
+# copy aligned queries (output from mothur) to bagpipe directory
+
+cp ../../query/BWL_CROP98.cluster.align .
+
+# use perl script 'bagpipe_phylo.pl' to do phylogenetic placement using the constrained RAxML tree and the aligned queries
+
+perl bagpipe_phylo.pl -treefile RAxML_bestTree.BWL_CROP98.constrn -seqfile BWL_CROP98.cluster.align -support 0 -node 40674
