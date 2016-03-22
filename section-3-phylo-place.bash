@@ -68,11 +68,7 @@ overlapping supertree backbone (from section 1 when making the reference databas
 # make a new directory (bagpipe_phylo) for placement option 3 and copy input files into it
 
 mkdir ../bagpipe_phylo
-
-# copy nodes.dmp and names.dmp from section 1 when making the reference database
-
-cp nodes.dmp ../placement/bagpipe_phylo
-cp names.dmp ../placement/bagpipe_phylo
+cd ../bagpipe_phylo
 
 # use RAxML to create a constraint tree from the input files
 
@@ -84,6 +80,11 @@ cp names.dmp ../placement/bagpipe_phylo
 #  RAxML_info.BWL_CROP98.constrn
 #  RAxML_log.BWL_CROP98.constrn
 #  RAxML_result.BWL_CROP98.constrn
+
+# copy nodes.dmp and names.dmp from section 1 when making the reference database to bagpipe directory
+
+cp ../../references/nodes.dmp .
+cp ../../references/names.dmp .
 
 # copy aligned queries (output from mothur) to bagpipe directory
 
