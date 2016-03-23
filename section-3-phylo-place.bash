@@ -51,7 +51,11 @@ sed '/_32350\|_35659/{N;d;}' aligned_refs.BWL_CROP98.cluster.align.overlapping.r
 # the number of sequences is equal to 1 less than the number of lines, which you can check using 'wc <file>'
 
 # output files:
-#  
+#  fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy.reduced
+#  RAxML_bestTree.BWL_CROP98.cluster.align.raxmlEPAout
+#  RAxML_info.BWL_CROP98.cluster.align.raxmlEPAout
+#  RAxML_log.BWL_CROP98.cluster.align.raxmlEPAout
+#  RAxML_result.BWL_CROP98.cluster.align.raxmlEPAout 
 
 #######################################################################################################################################
 ### OPTION TWO: pplacer ###############################################################################################################
@@ -142,13 +146,6 @@ perl format_conversion.pl aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq 
 
 /home/wangxy/scripts/RAxML-7.2.8-ALPHA/raxmlHPC -s aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy -n BWL_CROP98.constrn -m GTRCAT -c 25 -p 12345 -g BE_mammal_supertree.nwk.overlapping
 
-# output files:
-#  aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy.reduced
-#  RAxML_bestTree.BWL_CROP98.constrn
-#  RAxML_info.BWL_CROP98.constrn
-#  RAxML_log.BWL_CROP98.constrn
-#  RAxML_result.BWL_CROP98.constrn
-
 # Note: may need to remove some sequences consisting entirely of undetermined values (-) or else RAxML will not run, these are not the taxa you are looking for...
 
 sed '/_32350\|_35659/{N;d;}' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy > fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
@@ -160,7 +157,11 @@ sed '/_32350\|_35659/{N;d;}' aligned_refs.BWL_CROP98.cluster.align.overlapping.r
 # the number of sequences is equal to 1 less than the number of lines, which you can check using 'wc <file>'
 
 # output files:
-#  
+#  fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy.reduced
+#  RAxML_bestTree.BWL_CROP98.constrn
+#  RAxML_info.BWL_CROP98.constrn
+#  RAxML_log.BWL_CROP98.constrn
+#  RAxML_result.BWL_CROP98.constrn
 
 # copy nodes.dmp and names.dmp from section 1 when making the reference database to bagpipe directory
 
