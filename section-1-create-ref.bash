@@ -291,6 +291,7 @@ perl format_conversion.pl refs_unaligned.clo refs_unaligned.clo.phy fasta phylip
 # Note: may need to first remove previous files - rm BE_mammal_supertree.nwk.overlapping *.overlapping *.overlapping.phy R*ref_tree
 
 # use perl script 'parse_taxa_overlapping_newick_and_fasta.pl' to obtain only overlapping sequences in the supertree and the prank alignment of reference sequences
+# Note: make sure $include_nonoverlapping_taxa_in_fasta_file = 1 or else reference alignment will be constrained by the supertree
 
 perl parse_taxa_overlapping_newick_and_fasta.pl BE_mammal_supertree.nwk refs_unaligned.prank.best.fas
 
