@@ -96,12 +96,14 @@ pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 1 -t RAxML_bestTree.ref_tree -
 
 # guppy does various analyses of pplacer output
 # here, we use guppy to fatten tree edges where queries are assigned
+
 pplacer-Linux-v1.1.alpha17/guppy fat fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.jplace
 
 # output files:
 #  fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.xml
 
 # here, we use guppy to make a tree with each of the reads represented as a pendant edge
+
 pplacer-Linux-v1.1.alpha17/guppy tog fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.jplace
 
 # output files:
@@ -117,6 +119,7 @@ bagpipe_phylo.pl
 (https://sourceforge.net/projects/bagpipe/)
 
 # input files:
+
 refs_unaligned.prank.best.fas.overlapping = aligned references that overlap with the supertree backbone
 BE_mammal_supertree.nwk.overlapping       = overlapping supertree backbone (from section 1 when making the reference database)
 BWL_CROP98.cluster.align                  = alignment of queries to reference, output from mothur
@@ -176,6 +179,7 @@ perl bagpipe_phylo.pl -treefile RAxML_bestTree.BWL_CROP98.constrn -seqfile BWL_C
 # Note: also removed the following because 'error, no taxonomy found'
 #       all_seqs_89to121bp_noChimera_uniques_4414
 #       all_seqs_89to121bp_noChimera_uniques_45730
+
 sed '/_32350\|_35659\|_4414\|_45730/{N;d;}' BWL_CROP98.cluster.align > fixed.BWL_CROP98.cluster.align
 
 perl bagpipe_phylo.pl -treefile RAxML_bestTree.BWL_CROP98.constrn -seqfile fixed.BWL_CROP98.cluster.align -support 0 -node 40674
