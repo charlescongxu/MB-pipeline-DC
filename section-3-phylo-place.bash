@@ -173,8 +173,10 @@ cp ../../references/names.dmp .
 perl bagpipe_phylo.pl -treefile RAxML_bestTree.BWL_CROP98.constrn -seqfile BWL_CROP98.cluster.align -support 0 -node 40674
 
 # Note: may need to remove some sequences consisting entirely of undetermined values (-) or else RAxML will not run, these are not the taxa you are looking for...
-
-sed '/_32350\|_35659/{N;d;}' BWL_CROP98.cluster.align > fixed.BWL_CROP98.cluster.align
+# Note: also removed the following because 'error, no taxonomy found'
+#       all_seqs_89to121bp_noChimera_uniques_4414
+#       all_seqs_89to121bp_noChimera_uniques_45730
+sed '/_32350\|_35659\|_4414\|_45730/{N;d;}' BWL_CROP98.cluster.align > fixed.BWL_CROP98.cluster.align
 
 perl bagpipe_phylo.pl -treefile RAxML_bestTree.BWL_CROP98.constrn -seqfile fixed.BWL_CROP98.cluster.align -support 0 -node 40674
 
