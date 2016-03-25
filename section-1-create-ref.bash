@@ -121,7 +121,7 @@ perl parse_taxon_from_fastafile.pl mamDB key_Mar2016_Mammalia
 # now we need to obtain a mammal 16S reference sequence
 
 # search NCBI Nucleotide for the following:
-#  mammalia [organism] > AND "complete mitochondrial genome" AND refseq
+#  mammalia [organism] AND "complete mitochondrial genome" AND refseq
 # click on 'Send:' -> 'File' -> Format: 'GenBank (full)'
 # save as 'refseqs.gb'
 
@@ -226,7 +226,7 @@ blastn -task blastn -db mamDB.parsed.ng.rr -out mamDB.blastout -dust no -strand 
 # my $parse_which		 	         = $ARGV[5];  (1/2 = column 1 (query) or 2 (hit, default))
 # my $blastdbcmd 			         = $ARGV[6];
 
-perl parse_hits.pl mamDB.parsed.ng.rr mamDB.blastout 50 1 1400 2 blastdbcmd
+perl parse_hits.pl mamDB.parsed.ng.rr mamDB.blastout 50 1 1500 2 blastdbcmd
 
 # output files:
 #  mamDB.blastout.retreived
@@ -242,7 +242,7 @@ perl parse_hits.pl mamDB.parsed.ng.rr mamDB.blastout 50 1 1400 2 blastdbcmd
 
 perl species_filter.pl mamDB.blastout.retreived 1
 
-# outputfiles:
+# output files:
 #  mamDB.blastout.retreived.ID_filtered
 #  species_filter_LOG
 
