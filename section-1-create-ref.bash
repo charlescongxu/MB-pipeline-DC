@@ -121,7 +121,7 @@ perl parse_taxon_from_fastafile.pl mamDB key_Mar2016_Mammalia
 # now we need to obtain a mammal 16S reference sequence
 
 # search NCBI Nucleotide for the following:
-#  mammalia <genus species> AND "complete mitochondrial genome" AND refseq
+#  mammalia [organism] > AND "complete mitochondrial genome" AND refseq
 # click on 'Send:' -> 'File' -> Format: 'GenBank (full)'
 # save as 'refseqs.gb'
 
