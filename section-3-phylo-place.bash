@@ -52,10 +52,11 @@ sed '/_32350\|_35659/{N;d;}' aligned_refs.BWL_CROP98.cluster.align.overlapping.r
 
 # output files:
 #  fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy.reduced
-#  RAxML_bestTree.BWL_CROP98.cluster.align.raxmlEPAout
+#  RAxML_classification.BWL_CROP98.cluster.align.raxmlEPAout
+#  RAxML_classificationLikelihoodWeights.BWL_CROP98.cluster.align.raxmlEPAout
 #  RAxML_info.BWL_CROP98.cluster.align.raxmlEPAout
-#  RAxML_log.BWL_CROP98.cluster.align.raxmlEPAout
-#  RAxML_result.BWL_CROP98.cluster.align.raxmlEPAout 
+#  RAxML_labelledTree.BWL_CROP98.cluster.align.raxmlEPAout
+#  RAxML_originalLabelledTree.BWL_CROP98.cluster.align.raxmlEPAout 
 
 #######################################################################################################################################
 ### OPTION TWO: pplacer ###############################################################################################################
