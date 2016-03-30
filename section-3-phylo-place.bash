@@ -58,6 +58,20 @@ sed '/_32350\|_35659/{N;d;}' aligned_refs.BWL_CROP98.cluster.align.overlapping.r
 #  RAxML_labelledTree.BWL_CROP98.cluster.align.raxmlEPAout
 #  RAxML_originalLabelledTree.BWL_CROP98.cluster.align.raxmlEPAout 
 
+# use perl script 'process_raxmlEPA_outtree.pl' to process the raxmlEPA output tree for input into bagpipe_phylo
+
+perl process_raxmlEPA_outtree.pl RAxML_labelledTree.BWL_CROP98.cluster.align.raxmlEPAout
+
+# output files:
+#  RAxML_labelledTree.BWL_CROP98.cluster.align.raxmlEPAout.procd
+
+# use perl script 'bagpipe_phylo.pl' to do phylogenetic placement using the processed RAxML EPA out tree and the aligned queries (fixed because entries with all gaps/no data removed)
+
+perl bagpipe_phylo.pl -treefile RAxML_labelledTree.BWL_CROP98.cluster.align.raxmlEPAout.procd -seqfile fixed.BWL_CROP98.cluster.align -support 0 -node 40674
+
+# output files:
+#  RAxML_labelledTree.BWL_CROP98.cluster.align.raxmlEPAout.procd.query_clades
+
 #######################################################################################################################################
 ### OPTION TWO: pplacer ###############################################################################################################
 #######################################################################################################################################
