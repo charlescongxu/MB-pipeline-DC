@@ -73,7 +73,12 @@ for i in {1..61};do echo "Other Vertebrates division $i";wget ftp://ftp.ncbi.nih
 # use perl script 'parse_ncbi_tax_database.pl' to parse NCBI database files (names.dmp and nodes.dmp)
 # for taxonomic information of specified taxonomic group
 # 40674 = ncbi tax number for mammals
-# script options: $parse_species_only= 1; ignores partially labeled IDs
+# script options: 
+#  $ignore_atypical_ranks_to_shorten_codes = 1 (uses standard ranks: genus, tribe, subfamily, family, superfamily, order)
+#  $ignore_subspecies = 1 (extra ranks such as subspecies, varietas, and unnamed bacteria ranks ignored)
+#  $parse_species_only = 1 (ignores partially labeled IDs)
+#  $rank_numbers_in_taxcodes = 0 (puts numbers into the codes to give the rank (e.g. Co7 must be genus))
+#  $duplicate_taxonstring_numbers = 1 (use numbers to differentiate between two sister taxon names starting with same letter)
 
 perl parse_ncbi_tax_database.pl 40674
 
