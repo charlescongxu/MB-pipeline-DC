@@ -85,15 +85,15 @@ perl parse_ncbi_tax_database.pl 40674
 # -outformat 1 for accession_ncbiTaxnumber and -outformat 2 for Taxstring_GInumber
 # open script to modify the following settings:
 #  my @genbank_divisions      = "<all GenBank database divisions used (e.g. gbmam)>"
-#  my $gene_specific_analysis = 0/1       (depending on if you are interested in 1 or many genes)
-#  my @product_of_interests   = ("<gene name (e.g. 16S)>")
-#  my $print_genome_taxa      = 0/1       (depending on if you want to print full genomes (e.g. D. melanogaster))
+#  my $gene_specific_analysis = 0         (depending on if you are interested in 1 or many genes)
+#  my @product_of_interests   = "<gene name (e.g. 16S)>" (?only works if $gene_specific_analysis = 1?)
+#  my $print_genome_taxa      = 0         (if you want to print full genomes)
 #  $upper_entry_length 		    = 10000000  (?just put a big number here?)
-#  $limit_taxon               = 1/0       (?what does this do?)
-#  $limit_taxon_name          = "<name of taxon you want to limit (e.g. Insecta)>"
-#  $parse_protein             = 1/0       (depending on if you want to also parse proteins)
-#  my $verbose                = 1/0       (1 for debugging purposes)
-#  my $accession_keyfile_ID   = "<accession abbreviation of taxonomic group (e.g. inv)>"
+#  $limit_taxon               = 0         (make sure this is 0, obselete I think)
+#  $limit_taxon_name          = "<name of taxon you want to limit (e.g. Mammalia)>" (obselete I think)
+#  $parse_protein             = 0         (if you want to also parse proteins)
+#  my $verbose                = 0         (1 for debugging purposes)
+#  my $accession_keyfile_ID   = "<accession abbreviation of taxonomic group (e.g. mam)>"
 
 perl create_fasta_database_from_genbank_flatfiles.pl -out mamDB -outformat 1
 
