@@ -275,7 +275,7 @@ perl format_conversion.pl refs_unaligned.clo refs_unaligned.clo.phy fasta phylip
 
 # use RAxML to create a guide tree (using prank to create a guide tree is very slow)
 
-/home/wangxy/scripts/RAxML-7.2.8-ALPHA/raxmlHPC -D -e 1.0 -c 4 -s refs_unaligned.clo.phy -n refs_unaligned.clo_tree -m GTRCAT -p 12345
+/home/wangxy/scripts/RAxML-8.2.8/standard-RAxML-master/raxmlHPC-SSE3 -D -e 1.0 -c 4 -s refs_unaligned.clo.phy -n refs_unaligned.clo_tree -m GTRCAT -p 12345
 
 # output files:
 #  RAxML_bestTree.refs_unaligned.clo_tree
@@ -313,7 +313,7 @@ perl format_conversion.pl refs_unaligned.prank.best.fas.overlapping refs_unalign
 
 # use RAxML to create the reference phylogeny using the supertree as a backbone
 
-/home/wangxy/scripts/RAxML-7.2.8-ALPHA/raxmlHPC -s refs_unaligned.prank.best.fas.overlapping.phy -n ref_tree -m GTRCAT -c 25 -g BE_mammal_supertree.nwk.overlapping -p 12345
+/home/wangxy/scripts/RAxML-8.2.8/standard-RAxML-master/raxmlHPC-SSE3 -s refs_unaligned.prank.best.fas.overlapping.phy -n ref_tree -m GTRCAT -c 25 -g BE_mammal_supertree.nwk.overlapping -p 12345
 
 # output files:
 #  RAxML_log.ref_tree
