@@ -284,7 +284,7 @@ perl format_conversion.pl refs_unaligned.clo refs_unaligned.clo.phy fasta phylip
 # use prank with RAxML guide tree to do a final multiple alignment of the reference sequences
 # Note: because prank requires modules that cannot be installed on the server, you will have to download prank and run it on a local machine
 
-/home/wangxy/scripts/prank/bin/prank -d=refs_unaligned -o=refs_unaligned.prank -t=RAxML_bestTree.refs_unaligned.clo_tree -DNA
+/home/ecec/charles/prank/prank/bin/prank -d=refs_unaligned -o=refs_unaligned.prank -t=RAxML_bestTree.refs_unaligned.clo_tree -DNA
 
 # output files:
 #  refs_unaligned.prank.best.fas
