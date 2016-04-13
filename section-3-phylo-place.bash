@@ -38,7 +38,7 @@ perl format_conversion.pl aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq 
 # -o Tachyglossus_aculeatus: use short-beaked echidna as outgroup
 # Note: may need to remove files from previous runs of RAxML
 
-/home/wangxy/scripts/RAxML-7.2.8-ALPHA/raxmlHPC -f v -t RAxML_bestTree.ref_tree -m GTRCAT -n BWL_CROP98.cluster.align.raxmlEPAout -s aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy -o Tachyglossus_aculeatus
+/home/wangxy/scripts/RAxML-8.2.8/standard-RAxML-master/raxmlHPC-SSE3 -f v -t RAxML_bestTree.ref_tree -m GTRCAT -n BWL_CROP98.cluster.align.raxmlEPAout -s aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy -o Tachyglossus_aculeatus
 
 # Note: may need to remove some sequences consisting entirely of undetermined values (-) or else RAxML will not run, these are not the taxa you are looking for...
 
@@ -51,12 +51,13 @@ sed '/_32350\|_35659/{N;d;}' aligned_refs.BWL_CROP98.cluster.align.overlapping.r
 # the number of sequences is equal to 1 less than the number of lines, which you can check using 'wc <file>'
 
 # output files:
-#  fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy.reduced
 #  RAxML_classification.BWL_CROP98.cluster.align.raxmlEPAout
 #  RAxML_classificationLikelihoodWeights.BWL_CROP98.cluster.align.raxmlEPAout
 #  RAxML_info.BWL_CROP98.cluster.align.raxmlEPAout
 #  RAxML_labelledTree.BWL_CROP98.cluster.align.raxmlEPAout
-#  RAxML_originalLabelledTree.BWL_CROP98.cluster.align.raxmlEPAout 
+#  RAxML_originalLabelledTree.BWL_CROP98.cluster.align.raxmlEPAout
+#  RAxML_entropy.BWL_CROP98.cluster.align.raxmlEPAout
+#  RAxML_portableTree.BWL_CROP98.cluster.align.raxmlEPAout.jplace
 
 # use perl script 'process_raxmlEPA_outtree.pl' to process the raxmlEPA output tree for input into bagpipe_phylo
 
