@@ -134,14 +134,14 @@ perl parse_taxon_from_fastafile.pl mamDB key_Mar2016_Mammalia
 # -outformat 1 for accession_ncbiTaxnumber and -outformat 2 for Taxstring_GInumber
 # open script to modify the following settings:
 #  my @genbank_divisions      = "<all GenBank database divisions used (e.g. gbmam)>"
-#  my $gene_specific_analysis = 0/1       (depending on if you are interested in 1 or many genes)
-#  my @product_of_interests   = ("<gene name (e.g. 16S)>")
-#  my $print_genome_taxa      = 0/1       (depending on if you want to print full genomes (e.g. D. melanogaster))
+#  my $gene_specific_analysis = 0       (depending on if you are interested in 1 or many genes)
+#  my @product_of_interests   = ("<gene name (e.g. 16S)>", obselete?)
+#  my $print_genome_taxa      = 0       (depending on if you want to print full genomes (e.g. D. melanogaster))
 #  $upper_entry_length 		    = 10000000  (?just put a big number here?)
-#  $limit_taxon               = 1/0       (?what does this do?)
-#  $limit_taxon_name          = "<name of taxon you want to limit (e.g. Insecta)>"
-#  $parse_protein             = 1/0       (depending on if you want to also parse proteins)
-#  my $verbose                = 1/0       (1 for debugging purposes)
+#  $limit_taxon               = 0       (?what does this do?, obselete?)
+#  $limit_taxon_name          = "<name of taxon you want to limit (e.g. Insecta)>" (obselete?)
+#  $parse_protein             = 0       (depending on if you want to also parse proteins)
+#  my $verbose                = 0       (1 for debugging purposes)
 #  my $accession_keyfile_ID   = "<accession abbreviation of taxonomic group (e.g. inv)>"
 
 perl create_fasta_database_from_genbank_flatfiles.pl -in refseqs.gb -out refseqs.fas -outformat 2
@@ -283,8 +283,14 @@ perl format_conversion.pl refs_unaligned.clo refs_unaligned.clo.phy fasta phylip
 
 # use prank with RAxML guide tree to do a final multiple alignment of the reference sequences
 # Note: because prank requires modules that cannot be installed on the server, you will have to download prank and run it on a local machine
+# Note: this step may not work with the newest version of RAxML. You can also just use prank directly without inputting a RAxML guide tree. Prank will then use MAFFT to generate its own guide tree automatically, but this may be slower.
+
+scp wangxy@10.0.16.80:/home/wangxy/charles/data/mammal16S_database_14.04.16/RAxML_bestTree.refs_unaligned.clo_tree .
+scp wangxy@10.0.16.80:/home/wangxy/charles/data/mammal16S_database_14.04.16/refs_unaligned .
 
 /home/ecec/charles/prank/prank/bin/prank -d=refs_unaligned -o=refs_unaligned.prank -t=RAxML_bestTree.refs_unaligned.clo_tree -DNA
+
+scp refs_unaligned.prank.best.fas wangxy@10.0.16.80:/home/wangxy/charles/data/mammal16S_database_14.04.16
 
 # output files:
 #  refs_unaligned.prank.best.fas
