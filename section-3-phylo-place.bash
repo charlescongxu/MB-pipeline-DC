@@ -59,16 +59,44 @@ sed '/_32350\|_35659/{N;d;}' aligned_refs.BWL_CROP98.cluster.align.overlapping.r
 #  RAxML_entropy.BWL_CROP98.cluster.align.raxmlEPAout
 #  RAxML_portableTree.BWL_CROP98.cluster.align.raxmlEPAout.jplace
 
+# use genesis to create nexus file from .jplace file using 'visualize_placements'
+# Note: genesis is currently only installed on GRACE so you will need to upload the .jplace file there using scp
+
+module load gcc/4.9.3
+~/scripts/genesis-0.5.1/bin/visualize_placements RAxML_portableTree.BWL_CROP98.cluster.align.raxmlEPAout.jplace BWL_CROP98_EPA.nexus
+
+# output files:
+#  BWL_CROP98_EPA.nexus
+
+# use guppy from pplacer to make a tree with each of the reads represented as a pendant edge
+
+/home/wangxy/scripts/pplacer/pplacer-Linux-v1.1.alpha17/guppy tog RAxML_portableTree.BWL_CROP98.cluster.align.raxmlEPAout.jplace
+
+# output files:
+#  RAxML_portableTree.BWL_CROP98.cluster.align.raxmlEPAout.tog.tre
+
+# copy nodes.dmp and names.dmp from section 1 when making the reference database to bagpipe directory
+
+cp ../../references/nodes.dmp .
+cp ../../references/names.dmp .
+
+# use perl script 'bagpipe_phylo.pl' to create table output from EPA phylogenetic placement with .tre file
+
+perl bagpipe_phylo.pl -treefile RAxML_portableTree.BWL_CROP98.cluster.align.raxmlEPAout.tog.tre -seqfile fixed.BWL_CROP98.cluster.align -support 0 -node 40674
+
+# output files:
+#  RAxML_labelledTree.BWL_CROP98.cluster.align.raxmlEPAout.procd.query_clades
+
 # use perl script 'process_raxmlEPA_outtree.pl' to process the raxmlEPA output tree for input into bagpipe_phylo
 
-perl process_raxmlEPA_outtree.pl RAxML_labelledTree.BWL_CROP98.cluster.align.raxmlEPAout
+#perl process_raxmlEPA_outtree.pl RAxML_labelledTree.BWL_CROP98.cluster.align.raxmlEPAout
 
 # output files:
 #  RAxML_labelledTree.BWL_CROP98.cluster.align.raxmlEPAout.procd
 
 # use perl script 'bagpipe_phylo.pl' to do phylogenetic placement using the processed RAxML EPA out tree and the aligned queries (fixed because entries with all gaps/no data removed)
 
-perl bagpipe_phylo.pl -treefile RAxML_labelledTree.BWL_CROP98.cluster.align.raxmlEPAout.procd -seqfile fixed.BWL_CROP98.cluster.align -support 0 -node 40674
+#perl bagpipe_phylo.pl -treefile RAxML_labelledTree.BWL_CROP98.cluster.align.raxmlEPAout.procd -seqfile fixed.BWL_CROP98.cluster.align -support 0 -node 40674
 
 # output files:
 #  RAxML_labelledTree.BWL_CROP98.cluster.align.raxmlEPAout.procd.query_clades
@@ -76,6 +104,8 @@ perl bagpipe_phylo.pl -treefile RAxML_labelledTree.BWL_CROP98.cluster.align.raxm
 #######################################################################################################################################
 ### OPTION TWO: pplacer ###############################################################################################################
 #######################################################################################################################################
+
+# NOTE: pplacer only works with older versions of RAxML so you will need to remake 'RAxML_bestTree.ref_tree' and 'RAxML_info.ref_tree' with version 7.2.8
 
 # input files:
 
@@ -99,13 +129,13 @@ cat refs_unaligned.prank.best.fas.overlapping BWL_CROP98.cluster.align > aligned
 
 # use pplacer with reference tree and concatenated aligned queries with 'overlapping' reference alignment to do phylogenetic placement
 
-pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 1 -t RAxML_bestTree.ref_tree -s RAxML_info.ref_tree aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
+/home/wangxy/scripts/pplacer/pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 1 -t RAxML_bestTree.ref_tree -s RAxML_info.ref_tree aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
 
 # Note: may need to remove some sequences consisting entirely of undetermined values (-) or else RAxML will not run, these are not the taxa you are looking for...
 
 sed '/_32350\|_35659/{N;d;}' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa > fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
 
-pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 1 -t RAxML_bestTree.ref_tree -s RAxML_info.ref_tree fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
+/home/wangxy/scripts/pplacer/pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 1 -t RAxML_bestTree.ref_tree_pplacer -s RAxML_info.ref_tree_pplacer fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
 
 # output files:
 #  fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.jplace
@@ -113,17 +143,26 @@ pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 1 -t RAxML_bestTree.ref_tree -
 # guppy does various analyses of pplacer output
 # here, we use guppy to fatten tree edges where queries are assigned
 
-pplacer-Linux-v1.1.alpha17/guppy fat fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.jplace
+/home/wangxy/scripts/pplacer/pplacer-Linux-v1.1.alpha17/guppy fat fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.jplace
 
 # output files:
 #  fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.xml
 
 # here, we use guppy to make a tree with each of the reads represented as a pendant edge
 
-pplacer-Linux-v1.1.alpha17/guppy tog fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.jplace
+/home/wangxy/scripts/pplacer/pplacer-Linux-v1.1.alpha17/guppy tog fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.jplace
 
 # output files:
 #  fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.tog.tre
+
+# copy nodes.dmp and names.dmp from section 1 when making the reference database to bagpipe directory
+
+cp ../../references/nodes.dmp .
+cp ../../references/names.dmp .
+
+# use perl script 'bagpipe_phylo.pl' to create table output from pplacer phylogenetic placement with .tre file
+
+perl bagpipe_phylo.pl -treefile fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.tog.tre -seqfile fixed.BWL_CROP98.cluster.align -support 0 -node 40674
 
 #######################################################################################################################################
 ### OPTION THREE: bagpipe phylo #######################################################################################################
@@ -163,7 +202,7 @@ perl format_conversion.pl aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq 
 
 # use RAxML to create a constraint tree from the input files
 
-/home/wangxy/scripts/RAxML-7.2.8-ALPHA/raxmlHPC -s aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy -n BWL_CROP98.constrn -m GTRCAT -c 25 -p 12345 -g BE_mammal_supertree.nwk.overlapping
+/home/wangxy/scripts/RAxML-8.2.8/standard-RAxML-master/raxmlHPC-SSE3 -s aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy -n BWL_CROP98.constrn -m GTRCAT -c 25 -p 12345 -g BE_mammal_supertree.nwk.overlapping
 
 # Note: may need to remove some sequences consisting entirely of undetermined values (-) or else RAxML will not run, these are not the taxa you are looking for...
 
