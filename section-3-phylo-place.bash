@@ -10,13 +10,14 @@ refs_unaligned.prank.best.fas.overlapping = aligned references that overlap with
 RAxML_bestTree.ref_tree                   = reference tree
 
 # make a new directory (placement, RAxML_EPA) for section 3, placement option 1 and copy input files and 'format_conversion.pl' into it
-
+cd
 mkdir ../placement
 mkdir ../placement/RAxML_EPA
 cp refs_unaligned.prank.best.fas.overlapping ../placement/RAxML_EPA
 cp BWL_CROP98.cluster.align ../placement/RAxML_EPA
 
 cd ../references
+
 cp format_conversion.pl ../placement/RAxML_EPA
 cp RAxML_bestTree.ref_tree ../placement/RAxML_EPA
 
@@ -208,7 +209,7 @@ perl format_conversion.pl aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq 
 
 sed '/_32350\|_35659/{N;d;}' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy > fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
 
-/home/wangxy/scripts/RAxML-7.2.8-ALPHA/raxmlHPC -s fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy -n BWL_CROP98.constrn -m GTRCAT -c 25 -p 12345 -g BE_mammal_supertree.nwk.overlapping
+/home/wangxy/scripts/RAxML-8.2.8/standard-RAxML-master/raxmlHPC-SSE3 -s fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy -n BWL_CROP98.constrn -m GTRCAT -c 25 -p 12345 -g BE_mammal_supertree.nwk.overlapping
 
 # Also note: make sure the header of your queries/references alignment is correct, the 1st number should be the number of total sequences
 # otherwise you will get this stupid error: "Taxon Name too long at taxon XXX, adapt constant nmlngth in axml.h, current setting 256"
