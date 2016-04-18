@@ -124,7 +124,7 @@ cp ../../query/refs_unaligned.prank.best.fas.overlapping .
 cp ../../references/RAxML_bestTree.ref_tree .
 cp ../../references/RAxML_info.ref_tree .
 
-# concatenate aligned queries with 'overlapping' reference alignment and then convert from fasta to phylip format
+# concatenate aligned queries with 'overlapping' reference alignment
 
 cat refs_unaligned.prank.best.fas.overlapping BWL_CROP98.cluster.align > aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
 
