@@ -165,6 +165,11 @@ cp ../../references/names.dmp .
 
 perl bagpipe_phylo.pl -treefile fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.tog.tre -seqfile fixed.BWL_CROP98.cluster.align -support 0 -node 40674
 
+# use genesis to create nexus file from .jplace file using 'visualize_placements'
+# Note: genesis is currently only installed on GRACE so you will need to upload the .jplace file there using scp
+module load gcc/4.9.3
+~/scripts/genesis-0.5.1/bin/visualize_placements fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.jplace BWL_CROP98_pplacer.nexus
+
 #######################################################################################################################################
 ### OPTION THREE: bagpipe phylo #######################################################################################################
 #######################################################################################################################################
