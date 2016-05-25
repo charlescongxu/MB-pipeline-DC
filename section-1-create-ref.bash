@@ -259,16 +259,9 @@ perl species_filter.pl mamDB.blastout.retreived 1
 
 cp mamDB.blastout.retreived.ID_filtered refs_unaligned
 
-# use clustalo to do an initial alignment
+# use clustalo to do an initial alignment and output in phylip format
 
-/home/wangxy/scripts/Clustal/clustalo --infile=refs_unaligned --outfile=refs_unaligned.clo --outfmt=fa --threads=4 --force --log=clustalo_logfile
-
-# output files:
-#  refs_unaligned.clo
-
-# use perl script 'format_conversion.pl' to convert clustalo alignment from fasta to phylip format
-
-perl format_conversion.pl refs_unaligned.clo refs_unaligned.clo.phy fasta phylip
+/home/wangxy/scripts/Clustal/clustalo --infile=refs_unaligned --outfile=refs_unaligned.clo.phy --outfmt=phy --threads=4 --force --log=clustalo_logfile
 
 # output files:
 #  refs_unaligned.clo.phy
