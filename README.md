@@ -6,9 +6,11 @@
 required software:  
 * blast+ (executables makeblastdb, blastdbcmd)
 * usearch (http://www.drive5.com/usearch/download.html), old version 4.2.66_i86linux32 is recommended
-* raxmlHPC (version > 7.2.8-ish)
-* multiple alignment software such as clustalo, clustalw, prank, tcoffee, mafft, fsa or muscle
-* pynast, mothur or sina for aligning query sequences to reference alignment
+* raxmlHPC (newest version, also you will need version 7.2.7 if you want to use pplacer for taxonomic placement)
+* multiple alignment software such as clustalo, clustalw, prank, tcoffee, mafft, fsa or muscle (we use clustalo, clustalw and prank)
+* pynast, mothur or sina for aligning query sequences to reference alignment (we use pynast and mothur)
+* raxmlEPA (included in raxmlHPC package)
+* pplacer
 
 required scripts:  
 * create_fasta_database_from_genbank_flatfiles.pl
