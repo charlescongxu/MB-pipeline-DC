@@ -106,7 +106,7 @@ perl bagpipe_phylo.pl -treefile RAxML_portableTree.BWL_CROP98.cluster.align.raxm
 ### OPTION TWO: pplacer ###############################################################################################################
 #######################################################################################################################################
 
-# NOTE: pplacer only works with older versions of RAxML so you will need to remake 'RAxML_bestTree.ref_tree' and 'RAxML_info.ref_tree' with version 7.2.8
+# NOTE: pplacer only works with older versions of RAxML so you will need to remake 'RAxML_bestTree.ref_tree' and 'RAxML_info.ref_tree' with version 7.2.7
 
 # input files:
 
