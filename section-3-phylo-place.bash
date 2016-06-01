@@ -112,8 +112,8 @@ perl bagpipe_phylo.pl -treefile RAxML_portableTree.BWL_CROP98.cluster.align.raxm
 
 BWL_CROP98.cluster.align = alignment of queries to reference, output from mothur
 refs_unaligned.prank.best.fas.overlapping = aligned references that overlap with the supertree backbone
-RAxML_bestTree.ref_tree  = reference tree from section two
-RAxML_info.ref_tree      = info file of reference tree from section two
+RAxML_bestTree.ref_tree  = reference tree from section 1
+RAxML_info.ref_tree      = info file of reference tree from section 1
 
 # make a new directory (pplacer) for placement option 2 and copy input files into it
 
