@@ -3,7 +3,8 @@
 ######Linux pipeline for metabarcoding.  
 ######available at https://sourceforge.net/projects/metabarcode-pipe/
 
-required software:  
+required software:
+* usearch4.2.66_i86linux32
 * raxmlHPC (newest version, also you will need version 7.2.7 if you want to use pplacer for taxonomic placement)
 * mafft and clustalw for multiple sequence alignments
 * pynast and mothur for aligning query sequences to reference alignment
