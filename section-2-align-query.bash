@@ -2,8 +2,6 @@
 ### SECTION TWO: align query sequences to reference database ##########################################################################
 #######################################################################################################################################
 
-# Note: there are three options DC listed (PYNAST, MOTHUR and SINA), only PYNAST and MOTHUR are implemented here
-
 # input files:
 
 queryfile    = <name_of_file_containing_query_sequences>
