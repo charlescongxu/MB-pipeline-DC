@@ -32,7 +32,7 @@ perl create_fasta_database_from_genbank_flatfiles_Hsapiens.pl -in Homo_sapiens_r
 #  Homo_sapiens_refseq.fas
 
 # use 'multiple_sequence_splitter_ccyx.pl' to parse reference fasta database and split into many files, one for each gene
-perl multiple_sequence_splitter_ccyx.pl mam16S.fas
+perl multiple_sequence_splitter_ccyx.pl mam16S.fas mam16S.gb
 
 # outputs:
 #  mss_log                 (empty, not sure what its for...)
@@ -47,7 +47,7 @@ rm nameparsed.*
 #  mamDB16S
 
 # use 'multiple_sequence_splitter.pl' to parse Homo_sapien fasta database and split into many files, one for each gene
-perl multiple_sequence_splitter.pl Homo_sapiens_refseq.fas
+perl multiple_sequence_splitter.pl Homo_sapiens_refseq.fas Homo_sapiens_refseq.gb.gz
 
 # output:
 #  mss_log                 (empty, not sure what its for...)
