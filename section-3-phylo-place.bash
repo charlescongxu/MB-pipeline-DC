@@ -39,13 +39,13 @@ perl format_conversion.pl aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq 
 # -o Tachyglossus_aculeatus: use short-beaked echidna as outgroup
 # Note: may need to remove files from previous runs of RAxML
 
-/home/wangxy/scripts/RAxML-8.2.8/standard-RAxML-master/raxmlHPC-SSE3 -f v -t RAxML_bestTree.ref_tree -m GTRCAT -n BWL_CROP98.cluster.align.raxmlEPAout -s aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy -o Tachyglossus_aculeatus
+/home/wangxy/scripts/RAxML-8.2.8/standard-RAxML-master/raxmlHPC-SSE3 -f v -t RAxML_bestTree.ref_tree_epa -m GTRCAT -n BWL_CROP98.cluster.align.raxmlEPAout -s aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy -o Tachyglossus_aculeatus
 
 # Note: may need to remove some sequences consisting entirely of undetermined values (-) or else RAxML will not run, these are not the taxa you are looking for...
 
 sed '/_32350\|_35659/{N;d;}' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy > fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy
 
-/home/wangxy/scripts/RAxML-7.2.8-ALPHA/raxmlHPC -f v -t RAxML_bestTree.ref_tree -m GTRCAT -n BWL_CROP98.cluster.align.raxmlEPAout -s fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy -o Tachyglossus_aculeatus
+/home/wangxy/scripts/RAxML-7.2.8-ALPHA/raxmlHPC -f v -t RAxML_bestTree.ref_tree_epa -m GTRCAT -n BWL_CROP98.cluster.align.raxmlEPAout -s fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.phy -o Tachyglossus_aculeatus
 
 # Also note: make sure the header of your queries/references alignment is correct, the 1st number should be the number of total sequences
 # otherwise you will get this stupid error: "Taxon Name too long at taxon XXX, adapt constant nmlngth in axml.h, current setting 256"
@@ -116,7 +116,7 @@ cp ../../references/RAxML_info.ref_tree .
 
 # use pplacer with reference tree and concatenated aligned queries with 'overlapping' reference alignment to do phylogenetic placement
 
-/home/wangxy/scripts/pplacer/pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 7 -t RAxML_bestTree.ref_tree -s RAxML_info.ref_tree aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
+/home/wangxy/scripts/pplacer/pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 7 -t RAxML_bestTree.ref_tree_pplacer -s RAxML_info.ref_tree aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
 
 # Note: may need to remove some sequences consisting entirely of undetermined values (-) or else RAxML will not run, these are not the taxa you are looking for...
 
