@@ -60,15 +60,6 @@ sed '/_32350\|_35659/{N;d;}' aligned_refs.BWL_CROP98.cluster.align.overlapping.r
 #  RAxML_entropy.BWL_CROP98.cluster.align.raxmlEPAout
 #  RAxML_portableTree.BWL_CROP98.cluster.align.raxmlEPAout.jplace
 
-# use genesis to create nexus file from .jplace file using 'visualize_placements'
-# Note: genesis is currently only installed on GRACE so you will need to upload the .jplace file there using scp
-
-module load gcc/4.9.3
-~/scripts/genesis-0.5.1/bin/visualize_placements RAxML_portableTree.BWL_CROP98.cluster.align.raxmlEPAout.jplace BWL_CROP98_EPA.nexus
-
-# output files:
-#  BWL_CROP98_EPA.nexus
-
 # use guppy from pplacer to make a tree with each of the reads represented as a pendant edge
 
 /home/wangxy/scripts/pplacer/pplacer-Linux-v1.1.alpha17/guppy tog RAxML_portableTree.BWL_CROP98.cluster.align.raxmlEPAout.jplace
@@ -119,14 +110,9 @@ RAxML_info.ref_tree      = info file of reference tree from section 1
 
 mkdir ../pplacer
 cd ../pplacer
-cp ../../query/BWL_CROP98.cluster.align .
-cp ../../query/refs_unaligned.prank.best.fas.overlapping .
+cp ../../query/RAxML_info.ref_tree aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa .
 cp ../../references/RAxML_bestTree.ref_tree .
 cp ../../references/RAxML_info.ref_tree .
-
-# concatenate aligned queries with 'overlapping' reference alignment
-
-cat refs_unaligned.prank.best.fas.overlapping BWL_CROP98.cluster.align > aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
 
 # use pplacer with reference tree and concatenated aligned queries with 'overlapping' reference alignment to do phylogenetic placement
 
