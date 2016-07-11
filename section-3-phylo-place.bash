@@ -233,3 +233,16 @@ perl bagpipe_phylo.pl -treefile RAxML_bestTree.BWL_CROP98.constrn -seqfile fixed
 
 # output files:
 #  RAxML_bestTree.BWL_CROP98.constrn.query_clades
+
+#######################################################################################################################################
+### Genesis ###########################################################################################################################
+#######################################################################################################################################
+
+# genesis is a toolkit for working with .jplace files. Here, we use genesis to output placement results in table format.
+
+# load gcc and GSL module necessary for genesis
+module load GSL/1.15
+module load gcc/4.9.1
+
+# use genesis to on jplace files
+placement_classification_table XXX.jplace output_file
