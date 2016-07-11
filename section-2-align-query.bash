@@ -39,7 +39,7 @@ perl format_conversion.pl refs_unaligned.prank.best.fas.overlapping.BWL_CROP98.c
 
 # combine reference and query alignments
 
-cat refs_unaligned.prank.best.fas.overlapping refs_unaligned.prank.best.fas.overlapping.BWL_CROP98.cluster.fasta.pynast2 > refs_unaligned.prank.best.fas.overlapping.BWL_CROP98.cluster.fasta.pynast.rpq
+cat refs_unaligned.prank.best.fas.overlapping refs_unaligned.prank.best.fas.overlapping.BWL_CROP98.cluster.fasta.pynast2 > refs_unaligned.prank.best.fas.overlapping.BWL_CROP98.cluster.fasta.pynast.rpq.fa
 
 # upload query to reference alignment back to barcode server
 
