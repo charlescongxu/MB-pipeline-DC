@@ -116,13 +116,13 @@ cp ../../references/RAxML_info.ref_tree .
 
 # use pplacer with reference tree and concatenated aligned queries with 'overlapping' reference alignment to do phylogenetic placement
 
-/home/wangxy/scripts/pplacer/pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 1 -t RAxML_bestTree.ref_tree -s RAxML_info.ref_tree aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
+/home/wangxy/scripts/pplacer/pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 7 -t RAxML_bestTree.ref_tree -s RAxML_info.ref_tree aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
 
 # Note: may need to remove some sequences consisting entirely of undetermined values (-) or else RAxML will not run, these are not the taxa you are looking for...
 
 sed '/_32350\|_35659/{N;d;}' aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa > fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
 
-/home/wangxy/scripts/pplacer/pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 1 -t RAxML_bestTree.ref_tree_pplacer -s RAxML_info.ref_tree_pplacer fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
+/home/wangxy/scripts/pplacer/pplacer-Linux-v1.1.alpha17/pplacer --keep-at-most 7 -t RAxML_bestTree.ref_tree_pplacer -s RAxML_info.ref_tree_pplacer fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.fa
 
 # output files:
 #  fixed.aligned_refs.BWL_CROP98.cluster.align.overlapping.rpq.jplace
