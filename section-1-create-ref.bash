@@ -47,7 +47,7 @@ rm nameparsed.*
 #  mamDB16S
 
 # use 'multiple_sequence_splitter.pl' to parse Homo_sapien fasta database and split into many files, one for each gene
-perl multiple_sequence_splitter.pl Homo_sapiens_refseq.fas Homo_sapiens_refseq.gb.gz
+perl multiple_sequence_splitter_ccyx.pl Homo_sapiens_refseq.fas Homo_sapiens_refseq.gb.gz
 
 # output:
 #  mss_log                 (empty, not sure what its for...)
