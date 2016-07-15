@@ -5,11 +5,18 @@
 
 required software:
 * usearch4.2.66_i86linux32
+(http://www.drive5.com/usearch/download.html)
 * raxmlHPC (newest version, also you will need version 7.2.7 if you want to use pplacer for taxonomic placement)
+(https://github.com/stamatak/standard-RAxML)
 * mafft and clustalw for multiple sequence alignments
+(http://mafft.cbrc.jp/alignment/software/)
+(http://www.clustal.org/clustal2/#Download)
 * pynast and mothur for aligning query sequences to reference alignment
+(http://biocore.github.io/pynast/)
+(http://www.mothur.org/wiki/Download_mothur)
 * raxmlEPA (included in raxmlHPC package)
 * pplacer
+(http://matsen.fhcrc.org/pplacer/)
 
 required scripts:  
 * download_mamDB16S_Entrez.pl
