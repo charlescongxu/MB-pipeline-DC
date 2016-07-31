@@ -7,7 +7,7 @@ required software:
 * usearch4.2.66_i86linux32
 (http://www.drive5.com/usearch/download.html)
 * raxmlHPC (newest version, also you will need version 7.2.7 if you want to use pplacer for taxonomic placement)
-(https://github.com/stamatak/standard-RAxML)
+(https://github.com/stamatak/standard-RAxML, http://sco.h-its.org/exelixis/web/software/raxml/index.html)
 * mafft and clustalw for multiple sequence alignments
 (http://mafft.cbrc.jp/alignment/software/)
 (http://www.clustal.org/clustal2/#Download)
