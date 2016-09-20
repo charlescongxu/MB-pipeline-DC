@@ -55,17 +55,17 @@ align.seqs(candidate=${queryfile}, template=${aligned_refs}, search=kmer, align=
 quit()
 
 # output files:
-#  BWL_CROP98.cluster.align
-#  BWL_CROP98.cluster.align.report
-#  BWL_CROP98.cluster.flip.accnos
-#  refs_unaligned.prank.best.fas.8mer
+#  mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.8mer
+#  NYM_BFCusearchMF_CROP98.cluster_Blast_Filtered.flip.accnos
+#  NYM_BFCusearchMF_CROP98.cluster_Blast_Filtered.align.report
+#  NYM_BFCusearchMF_CROP98.cluster_Blast_Filtered.align
 #  a mothur logfile
 
-# the output (BWL_CROP98.cluster.align) needs some processing now
+# the output (NYM_BFCusearchMF_CROP98.cluster_Blast_Filtered.align) needs some processing now
 # we need to replace all '.' with '-' for input into RAxML to do phylogenetic placement
 
 # Linux syntax
-sed -i 's/\./-/g' BWL_CROP98.cluster.align
+sed -i 's/\./-/g' NYM_BFCusearchMF_CROP98.cluster_Blast_Filtered.align
 
 # macOS syntax
-sed -i '' 's/\./-/g' BWL_CROP98.cluster.align
+sed -i '' 's/\./-/g' NYM_BFCusearchMF_CROP98.cluster_Blast_Filtered.align
