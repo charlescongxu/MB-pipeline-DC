@@ -5,6 +5,8 @@
 
 # use 'download_mamDB16S_Entrez.pl' to entrez download all NCBI sequences in .gb format using the following query:
 # 16S[All Fields]+AND+"Mammalia"[Organism]+AND+(biomol_genomic[PROP]+AND+mitochondrion[filter])
+# http://www.ncbi.nlm.nih.gov/nucleotide/ for manual download
+# go to "Send to" button and download as file, genbank format
 perl download_mamDB16S_Entrez.pl
 
 # output:
@@ -12,7 +14,8 @@ perl download_mamDB16S_Entrez.pl
 
 # use 'create_fasta_database_from_genbank_flatfiles_ccyx.pl' to parse reference gb files to create a single fasta format database
 # -outformat 1 for accession_ncbiTaxnumber and -outformat 2 for Taxstring_GInumber
-perl create_fasta_database_from_genbank_flatfiles_ccyx.pl -in mam16S.gb -out mam16S.fas -outformat 2
+perl create_fasta_database_from_genbank_flatfiles_ccyx.pl -in mam16S.gb.gz -out mam16S.fas -outformat 2
+# gunzips a gb file, extracts a fasta file from the gb, gzips the mam16S.gb file, and also omits seqs < 150 bp (this is the whole gene)
 
 # output:
 #  mam16S.fas
@@ -20,6 +23,8 @@ perl create_fasta_database_from_genbank_flatfiles_ccyx.pl -in mam16S.gb -out mam
 # manually download the Homo_sapiens refseq in .gb format
 # we have to do this because the entrez download does not contain Homo_sapiens
 http://www.ncbi.nlm.nih.gov/nuccore/NC_012920.1
+# go to "Send to" button and download as file, genbank format, change name and gzip to produce
+#  Homo_sapiens_refseq.gb.gz
 
 # output:
 #  Homo_sapiens_refseq.gb.gz
@@ -32,6 +37,7 @@ perl create_fasta_database_from_genbank_flatfiles_Hsapiens.pl -in Homo_sapiens_r
 #  Homo_sapiens_refseq.fas
 
 # use 'multiple_sequence_splitter_ccyx.pl' to parse reference fasta database and split into many files, one for each gene
+# we want multiple fasta files, one for each gene
 perl multiple_sequence_splitter_ccyx.pl mam16S.fas mam16S.gb
 
 # outputs:
@@ -80,11 +86,12 @@ perl preprocess_fasta_database.pl -in mamDB16S_full_unambig -filter_seq_length_o
 # use 'preprocess_fasta_database.pl' to remove from reference database:
 #   duplicate entries  (same sequence and acccession)
 #   identical sequences if coming from the same species  (retained if from different species)
-# Note: this step requires software: usearch4.2.66_i86linux32
-perl preprocess_fasta_database.pl -in mamDB16S_full_unambig.ng -reduce_redundency -usearch_command usearch4.2.66_i86linux32
+# Note: this step requires software: usearch v5.2.32
+perl preprocess_fasta_database.pl -in mamDB16S_full_unambig.ng -reduce_redundency -usearch_command usearch
+# gives error "Died at preprocess_fasta_database.pl line 343", which we can ignore
 
 # output:
-#  mamDB16S_full_unambig.ng.rr
+#  mamDB16S_full_unambig.ng.rr  # the output we want:  no duplicate entries nor identical sequences from same species
 #  mamDB16S_full_unambig.ng.sorted      (sorted by decreasing length)
 #  mamDB16S_full_unambig.ng.sorted.nr   (no species name, just cluster numbers)
 #  mamDB16S_full_unambig.ng.uclust_log  (log file containing info of each sequence)
@@ -119,7 +126,7 @@ mafft mamDB16S_full_unambig.ng.rr.ID_filtered.fixed > mamDB16S_full_unambig.ng.r
 # output:
 #  mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft
 
-# finally, we need a reference phylogeny
+# Finally, we need a reference phylogeny
 # this is a quick method to get a nice-ish tree using a previously published tree as a backbone
 # BE_mammal_supertree.nwk is a supertree of mammals from Bininda-Emonds (ask DC for source)
 # outgroup that might be used in the RAxML search: -o Tachyglossus_aculeatus
@@ -144,14 +151,26 @@ perl format_conversion.pl mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.ov
 # use RAxML to create the reference phylogeny using the supertree as a backbone
 # version 7.2.7 is for placement using pplacer
 
-raxmlHPC-SSE3 -s mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping.phy -n ref_tree_epa -m GTRCAT -c 25 -g BE_mammal_supertree.nwk.overlapping -p 12345
+# this creates the reference tree for epa, only includes the reference sequences, not the queries
+# orig raxml was: raxmlHPC-SSE3 -s mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping.phy -n ref_tree_epa -m GTRCAT -c 25 -g BE_mammal_supertree.nwk.overlapping -p 12345
+# -T 3 # 3 threads, which is the max i want to use on mac. default = 2
+# -s alignment
+# -n name of alignment file
+# -m model
+# -c number of distinct rate categories
+# -g name of constraint tree
+
+raxmlHPC-PTHREADS-SSE3 -T 2 -s mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping.phy -n ref_tree_epa -m GTRCAT -c 25 -g BE_mammal_supertree.nwk.overlapping -p 12345
+# required 37 minutes on my macbook pro
 
 # output files:
 #  RAxML_log.ref_tree_epa
 #  RAxML_info.ref_tree_epa
 #  RAxML_bestTree.ref_tree_epa
 
-raxmlHPC-SSE3-7.2.7 -s mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping.phy -n ref_tree_pplacer -m GTRCAT -c 25 -g BE_mammal_supertree.nwk.overlapping -p 12345
+# this creates the reference tree for pplacer (requires raxml 7.2.7)
+# orig raxml: raxmlHPC-SSE3-7.2.7 -s mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping.phy -n ref_tree_pplacer -m GTRCAT -c 25 -g BE_mammal_supertree.nwk.overlapping -p 12345
+raxmlHPC-SSE3 -s mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping.phy -n ref_tree_pplacer -m GTRCAT -c 25 -g BE_mammal_supertree.nwk.overlapping -p 12345
 
 # output files:
 #  RAxML_log.ref_tree_pplacer
