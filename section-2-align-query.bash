@@ -1,61 +1,58 @@
 #######################################################################################################################################
 ### SECTION TWO: align query sequences to reference database ##########################################################################
 #######################################################################################################################################
+### Only need to run this script once per query dataset ###############################################################################
+#######################################################################################################################################
 
 # input files:
 
-queryfile    = <name_of_file_containing_query_sequences>
-aligned_refs = refs_unaligned.prank.best.fas.overlapping
+queryfile=NYM_BFCusearchMF_CROP98.cluster_Blast_Filtered.fasta # query OTUs
+aligned_refs=mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping # these are the aligned reference sequences, formatted
 
 # make a new directory (query) for section 2 and copy input files into it
 # make sure query file is also in this directory
 
-mkdir ../query
-cp refs_unaligned.prank.best.fas.overlapping ../query
+mkdir query
+cp ${queryfile} query
+cp ${aligned_refs} query
+cd query
 
-cd ../query
-
-########################################################################################################################
-### PYNAST #############################################################################################################
-########################################################################################################################
+#######################################################################################################################################
+### PYNAST for pynast/pplacer #########################################################################################################
+#######################################################################################################################################
 
 # Note: PyNAST must be installed and used on the local linux machine since it require modules unavilable on the barcode server
-
-scp wangxy@10.0.16.80:<PATH OF FILE> <PATH TO DOWNLOAD TO>
+# scp wangxy@10.0.16.80:<PATH OF FILE> <PATH TO DOWNLOAD TO>
 
 # delete previous pynast output file (if present)
-
 rm *.pynast1 *.pynast2
 
 # use PyNAST to align query sequences to the reference database
 # Note: default parameter for alignment length is way too high, set at 80 for our short reads
 # clustal for pw step instead of default uclust
+pynast --pairwise_alignment_method clustal ${queryfile} -t ${aligned_refs} --min_pct_id=67 --min_len=80 --fasta_out_fp="${aligned_refs}_${queryfile}.pynast1"
 
-/home/ecec/qiime_software/pynast-1.2-release/bin/pynast --pairwise_alignment_method clustal -i BWL_CROP98.cluster.fasta -t refs_unaligned.prank.best.fas.overlapping --min_pct_id=67 --min_len=80 --fasta_out_fp=refs_unaligned.prank.best.fas.overlapping.BWL_CROP98.cluster.fasta.pynast1
+# ${queryfile}_pynast_fail.fasta holds sequences that pynast can't align
 
 # pynast modifies fasta IDs so remove these extra bits using 'format_conversion.pl'
-
-perl format_conversion.pl refs_unaligned.prank.best.fas.overlapping.BWL_CROP98.cluster.fasta.pynast1 refs_unaligned.prank.best.fas.overlapping.BWL_CROP98.cluster.fasta.pynast2 fasta fasta
+# or use seqtk: seqtk seq -AC "${aligned_refs}_${queryfile}.pynast1" > "${aligned_refs}_${queryfile}.pynast2"
+perl ../format_conversion.pl "${aligned_refs}_${queryfile}.pynast1" "${aligned_refs}_${queryfile}.pynast2" fasta fasta
 
 # combine reference and query alignments
+cat "${aligned_refs}" "${aligned_refs}_${queryfile}.pynast2" > "${aligned_refs}_${queryfile}.pynast.rpq.fa"
 
-cat refs_unaligned.prank.best.fas.overlapping refs_unaligned.prank.best.fas.overlapping.BWL_CROP98.cluster.fasta.pynast2 > refs_unaligned.prank.best.fas.overlapping.BWL_CROP98.cluster.fasta.pynast.rpq.fa
-
-# upload query to reference alignment back to barcode server
-
-scp <PATH OF FILE> wangxy@10.0.16.80:<PATH TO UPLOAD TO>
-
-########################################################################################################################
-### MOTHUR #############################################################################################################
-########################################################################################################################
+########################################################################################################################################
+### MOTHUR for mothur/epa ##############################################################################################################
+########################################################################################################################################
 
 # use mothur to align query sequences to the reference database
 # key options you can vary are:
 #  search = kmer/suffix/blast
 #  align  = needleman/gotoh
 
-/home/wangxy/scripts/mothur/mothur
-align.seqs(candidate=BWL_CROP98.cluster.fasta, template=refs_unaligned.prank.best.fas.overlapping, search=kmer, align=needleman, threshold=0.85)
+mothur # starts mothur environment
+align.seqs(candidate=${queryfile}, template=${aligned_refs}, search=kmer, align=needleman, threshold=0.85)
+quit()
 
 # output files:
 #  BWL_CROP98.cluster.align
@@ -67,4 +64,8 @@ align.seqs(candidate=BWL_CROP98.cluster.fasta, template=refs_unaligned.prank.bes
 # the output (BWL_CROP98.cluster.align) needs some processing now
 # we need to replace all '.' with '-' for input into RAxML to do phylogenetic placement
 
+# Linux syntax
 sed -i 's/\./-/g' BWL_CROP98.cluster.align
+
+# macOS syntax
+sed -i '' 's/\./-/g' BWL_CROP98.cluster.align
