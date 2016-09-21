@@ -149,7 +149,7 @@ perl format_conversion.pl mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.ov
 #  mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping.phy
 
 # use RAxML to create the reference phylogeny using the supertree as a backbone
-# version 7.2.7 is for placement using pplacer
+# version 7.2.7 is for placement using pplacer unless you use taxit to create a reference package first, otherwise latest version will work too
 
 # this creates the reference tree for epa, only includes the reference sequences, not the queries
 # orig raxml was: raxmlHPC-SSE3 -s mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping.phy -n ref_tree_epa -m GTRCAT -c 25 -g BE_mammal_supertree.nwk.overlapping -p 12345
@@ -169,6 +169,7 @@ raxmlHPC-PTHREADS-SSE3 -T 2 -s mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.maf
 #  RAxML_bestTree.ref_tree_epa
 
 # this creates the reference tree for pplacer (requires raxml 7.2.7)
+# only necessary if you do not use taxit to create a reference package, otherwise the latest version will work too
 # orig raxml: raxmlHPC-SSE3-7.2.7 -s mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping.phy -n ref_tree_pplacer -m GTRCAT -c 25 -g BE_mammal_supertree.nwk.overlapping -p 12345
 raxmlHPC-SSE3 -s mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping.phy -n ref_tree_pplacer -m GTRCAT -c 25 -g BE_mammal_supertree.nwk.overlapping -p 12345
 
