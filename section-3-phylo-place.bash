@@ -73,6 +73,7 @@ guppy tog RAxML_portableTree.${mothuralignment}.raxmlEPAout.jplace
 #######################################################################################################################################
 
 # NOTE: pplacer only works with older versions of RAxML so you will need to remake 'RAxML_bestTree.ref_tree' and 'RAxML_info.ref_tree' with version 7.2.7
+# Unless you use taxit to create a reference package first
 
 # input files:
 pynastrefalignment=mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping_NYM_BFCusearchMF_CROP98.cluster_Blast_Filtered.fasta.pynast.rpq.fa  # pynast alignment of queries to reference, then concatenated to aligned_refs
@@ -85,6 +86,12 @@ cd ../pplacer
 cp ../../query/${pynastrefalignment} ./
 cp ../../${pplacer_tree} .
 cp ../../${pplacer_info} .
+
+# use taxit to create reference package
+taxit create -l pplacer -P my.refpkg --aln-fasta mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping --tree-stats ${pplacer_info} --tree-file ${pplacer_tree}
+
+# use pplacer on taxit reference package
+pplacer --keep-at-most 7 -o pynast_pplacer.jplace -p -c my.refpkg ${pynastrefalignment}
 
 # use pplacer with reference tree and concatenated aligned queries with 'overlapping' reference alignment to do phylogenetic placement
 
