@@ -69,3 +69,24 @@ sed -i 's/\./-/g' NYM_BFCusearchMF_CROP98.cluster_Blast_Filtered.align
 
 # macOS syntax
 sed -i '' 's/\./-/g' NYM_BFCusearchMF_CROP98.cluster_Blast_Filtered.align
+
+########################################################################################################################################
+### PaPaRa #############################################################################################################################
+########################################################################################################################################
+
+#use format_conversion.pl to convert reference alignment fasta to phylip
+perl format_conversion.pl mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping.phy fasta phylip
+
+#output:
+#mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping.phy
+
+#The phylip file (option -s) must contain the reference alignment (RA), consistent with the reference tree (option -t).
+#The FASTA file (option -q) contains the unaligned query sequences (QS)
+#The output alignment will be written to papara_alignment.default.
+#You can change the file suffix (i.e., “default”) by supplying a run-name with parameter -n
+papara -t RAxML_bestTree.ref_tree_epa -s mamDB16S_full_unambig.ng.rr.ID_filtered.fixed.mafft.overlapping.phy -q ../../16s_seqs_nonchimeric_rep_set__20plus_allmaps_nopighumbac_mammals.fasta -n 16s_torrey
+
+#output:
+#papara_log.16s_torrey (papara log file)
+#papara_alignment.16s_torrey (papara alignment file in phylip format)
+#papara_quality.16s_torrey (empty??)
