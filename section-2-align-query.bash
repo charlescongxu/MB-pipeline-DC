@@ -27,10 +27,13 @@ cd query
 # delete previous pynast output file (if present)
 rm *.pynast1 *.pynast2
 
+# may need to load python 2.7.9 first
+module load python/2.7.9
+
 # use PyNAST to align query sequences to the reference database
 # Note: default parameter for alignment length is way too high, set at 80 for our short reads
 # clustal for pw step instead of default uclust
-pynast --pairwise_alignment_method clustal ${queryfile} -t ${aligned_refs} --min_pct_id=67 --min_len=80 --fasta_out_fp="${aligned_refs}_${queryfile}.pynast1"
+pynast --pairwise_alignment_method clustal -i ${queryfile} -t ${aligned_refs} --min_pct_id=67 --min_len=80 --fasta_out_fp="${aligned_refs}_${queryfile}.pynast1"
 
 # ${queryfile}_pynast_fail.fasta holds sequences that pynast can't align
 
