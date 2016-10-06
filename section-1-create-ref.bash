@@ -112,10 +112,11 @@ perl species_filter.pl mamDB16S_full_unambig.ng.rr 1
 # these can be identified if they are in totally incorrect positions in the final tree
 # the general command is:
 #  cat whatever.fasta | awk '{if (substr($0,1,6) == ">chrUn") censor=1; else if (substr($0,1,1) == ">") censor=0; if (censor==0) print $0}' > fixed.fasta
-cat mamDB16S_full_unambig.ng.rr.ID_filtered | awk '{if (substr($0,1,30) == ">Myomyscus_brockmani_389617679") censor=1; else if (substr($0,1,1) == ">") censor=0; if (censor==0) print $0}' > mamDB16S_full_unambig.ng.rr.ID_filtered.fixed
-cat mamDB16S_full_unambig.ng.rr.ID_filtered.fixed | awk '{if (substr($0,1,28) == ">Canis_himalayensis_34305140") censor=1; else if (substr($0,1,1) == ">") censor=0; if (censor==0) print $0}' > tmp
-cat tmp | awk '{if (substr($0,1,22) == ">Canis_indica_34305148") censor=1; else if (substr($0,1,1) == ">") censor=0; if (censor==0) print $0}' > mamDB16S_full_unambig.ng.rr.ID_filtered.fixed
-rm tmp
+cat mamDB16S_full_unambig.ng.rr.ID_filtered | awk '{if (substr($0,1,30) == ">Myomyscus_brockmani_389617679") censor=1; else if (substr($0,1,1) == ">") censor=0; if (censor==0) print $0}' > tmp1
+cat tmp1 | awk '{if (substr($0,1,28) == ">Canis_himalayensis_34305140") censor=1; else if (substr($0,1,1) == ">") censor=0; if (censor==0) print $0}' > tmp2
+cat tmp2 | awk '{if (substr($0,1,22) == ">Canis_indica_34305148") censor=1; else if (substr($0,1,1) == ">") censor=0; if (censor==0) print $0}' > tmp3
+cat tmp3 | awk '{if (substr($0,1,34) == ">Thryonomys_swinderianus_695276269") censor=1; else if (substr($0,1,1) == ">") censor=0; if (censor==0) print $0}' > mamDB16S_full_unambig.ng.rr.ID_filtered.fixed
+rm tmp*
 
 # output:
 #  mamDB16S_full_unambig.ng.rr.ID_filtered.fixed
